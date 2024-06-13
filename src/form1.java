@@ -121,6 +121,49 @@ public class form1 extends JFrame {
                 }
             });
 
+            // Checar dados
+            btnApresenDados.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // Criando variáveis
+                    String nome = txtfNome.getText();
+                    int matricula = Integer.parseInt(txtfMatricula.getText());
+                    String periodo = jlPeriodo.getSelectedValue();
+                    String restricMedic = txtaRetricMedic.getText();
+
+                    String curso = "";
+                    if(rdbOp1.isSelected()) {
+                        curso = rdbOp1.getText();
+                    }
+                    else if(rdbOp2.isSelected()) {
+                        curso = rdbOp2.getText();
+                    }
+                    else if(rdbOp3.isSelected()) {
+                        curso = rdbOp3.getText();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Selecione pelo menos uma opção de curso!");
+                    }
+
+                    String serie = "";
+                    if(rdbSerie1.isSelected()) {
+                        serie = rdbSerie1.getText();
+                    }
+                    else if(rdbSerie2.isSelected()) {
+                        serie = rdbSerie2.getText();
+                    }
+                    else if(rdbSerie3.isSelected()) {
+                        serie = rdbSerie3.getText();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Selecione pelo menos uma opção de série!");
+                    }
+
+                    form2 formulario2 = new form2(nome, matricula, curso, serie, periodo, restricMedic);
+                    formulario2.setVisible(true);
+                    dispose();
+                }
+            });
+
         // Adicionar na tela
             tela.add(lblNome);
             tela.add(lblDadosCurso);
