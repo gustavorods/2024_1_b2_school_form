@@ -4,13 +4,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
 
+import static java.lang.System.exit;
+
 public class form1 extends JFrame {
     // Componentes
     JLabel lblTitulo, lblNome, lblMatricula, lblDadosCurso, lblRestriMedic;
     JTextField txtfNome, txtfMatricula;
 
     JRadioButton  rdbOp1, rdbOp2, rdbOp3 ,rdbSerie1, rdbSerie2, rdbSerie3;
-    ButtonGroup rdbGp = new ButtonGroup();
+    ButtonGroup rdbGpOpcoes = new ButtonGroup();
+    ButtonGroup rdbGpSeries = new ButtonGroup();
 
     JList<String> jlPeriodo;
     String periodoArray[] = {"Matutino", "Vaspertino", "Noturno"};
@@ -18,19 +21,20 @@ public class form1 extends JFrame {
     JTextArea txtaRetricMedic;
     JButton btnApresenDados, btnLimpar, btnSair;
 
+
     // Construtor
     public form1() {
         // Configurações da Janela
             super("Formulário escolar");
             Container tela = getContentPane();
             setLayout(null);
-            setSize(500,500);
+            setSize(550,500);
             setResizable(false);
 
         // Criando os elementos
             // JLabel
             lblNome = new JLabel("Nome: ");
-            lblMatricula = new JLabel("Matrícula");
+            lblMatricula = new JLabel("Matrícula: ");
             lblDadosCurso = new JLabel("Informe os dados do seu curso: ");
             lblRestriMedic = new JLabel("Restrições Médicas: ");
             lblTitulo = new JLabel("Dados Cadastrais do Aluno ");
@@ -46,24 +50,28 @@ public class form1 extends JFrame {
             rdbSerie1 = new JRadioButton("1° série");
             rdbSerie2 = new JRadioButton("2° série");
             rdbSerie3 = new JRadioButton("3° série");
-            rdbGp.add(rdbOp1);
-            rdbGp.add(rdbOp2);
-            rdbGp.add(rdbOp3);
-            rdbGp.add(rdbSerie1);
-            rdbGp.add(rdbSerie2);
-            rdbGp.add(rdbSerie3);
+            rdbGpOpcoes.add(rdbOp1);
+            rdbGpOpcoes.add(rdbOp2);
+            rdbGpOpcoes.add(rdbOp3);
+            rdbGpSeries.add(rdbSerie1);
+            rdbGpSeries.add(rdbSerie2);
+            rdbGpSeries.add(rdbSerie3);
 
             //Jlist + adicionando scroll
             jlPeriodo = new JList<>(periodoArray);
+            jlPeriodo.setVisibleRowCount(3);
+            jlPeriodo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            jlPeriodo.setBounds(230, 170, 100, 40);
+
+
             JScrollPane painelRolagemPeriodo = new JScrollPane(jlPeriodo);
-            painelRolagemPeriodo.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            painelRolagemPeriodo.setBounds(20, 220, 250, 100); // TEMP -> Ajustar ao tamanho do Jlist normal
+            painelRolagemPeriodo.setBounds(230, 170, 100, 40);
 
             //TextArea + adicionando scroll
-            txtaRetricMedic = new JTextArea(10,20);
+            txtaRetricMedic = new JTextArea();
             JScrollPane painelRolagemRetricMedic = new JScrollPane(txtaRetricMedic);
-            painelRolagemRetricMedic.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             painelRolagemRetricMedic.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            painelRolagemRetricMedic.setBounds(200,260,250,120);
 
             // Button
             btnApresenDados = new JButton("Apresentar Dados");
@@ -72,15 +80,52 @@ public class form1 extends JFrame {
 
 
         // Posicionando os elementos
-            lblTitulo.setBounds(150,15,200,30);
+            lblTitulo.setBounds(115,15,300,30);
+            lblNome.setBounds(20,60,100,30);
+            txtfNome.setBounds(80,66,200,20);
+            lblMatricula.setBounds(20,90,100,30);
+            txtfMatricula.setBounds(80,96,100,20);
+            lblDadosCurso.setBounds(20, 140,200,20);
+            rdbOp1.setBounds(20,170,100,20);
+            rdbOp2.setBounds(20,190,100,20);
+            rdbOp3.setBounds(20,210,100,20);
+            rdbSerie1.setBounds(120,170,100,20);
+            rdbSerie2.setBounds(120,190,100,20);
+            rdbSerie3.setBounds(120,210,100,20);
+            lblRestriMedic.setBounds(20, 255, 140,20);
+            btnApresenDados.setBounds(20,410,150,25);
+            btnLimpar.setBounds(190,410,130,25);
+            btnSair.setBounds(340,410,130,25);
 
+        // Personalização + métodos
+            // Persoalização do título
+            Font font = new Font("Arial", Font.BOLD, 20);
+            lblTitulo.setFont(font);
+
+            // Limpar os campos
+            btnLimpar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    txtfNome.setText("");
+                    txtfMatricula.setText("");
+                    rdbGpOpcoes.clearSelection();
+                    rdbGpSeries.clearSelection();
+                    txtaRetricMedic.setText("");
+                    jlPeriodo.setSelectedIndex(0);
+                }
+            });
+
+            // Sair
+            btnSair.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    exit(0);
+                }
+            });
 
         // Adicionar na tela
             tela.add(lblNome);
             tela.add(lblDadosCurso);
             tela.add(lblMatricula);
             tela.add(lblRestriMedic);
-            tela.add(txtaRetricMedic);
             tela.add(txtfMatricula);
             tela.add(txtfNome);
             tela.add(rdbOp1);
@@ -89,10 +134,12 @@ public class form1 extends JFrame {
             tela.add(rdbSerie1);
             tela.add(rdbSerie2);
             tela.add(rdbSerie3);
-            tela.add(jlPeriodo);
             tela.add(lblTitulo);
             tela.add(painelRolagemPeriodo);
             tela.add(painelRolagemRetricMedic);
+            tela.add(btnApresenDados);
+            tela.add(btnLimpar);
+            tela.add(btnSair);
 
             setVisible(true);
     }
