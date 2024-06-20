@@ -110,7 +110,7 @@ public class form1 extends JFrame {
                     rdbGpOpcoes.clearSelection();
                     rdbGpSeries.clearSelection();
                     txtaRetricMedic.setText("");
-                    jlPeriodo.setSelectedIndex(0);
+                    jlPeriodo.clearSelection();
                 }
             });
 
